@@ -33,7 +33,7 @@ namespace AlfaPoster.TelegramFacade
             services.Configure<Config>(Configuration);
             var settings = Configuration.Get<Config>();
             
-            Bot.Init(settings.TelegramBotToken);
+            Bot.Init(settings.TelegramBotToken, settings.TelegramBotName);
             if (settings.Ngrok)
             {
                 var ngrockUrl = Ngrok.GetTunnelUrl();

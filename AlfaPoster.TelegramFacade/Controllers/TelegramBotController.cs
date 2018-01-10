@@ -12,7 +12,6 @@ namespace AlfaPoster.TelegramFacade.Controllers
     public class TelegramBotController : Controller
     {
         private readonly List<IAdapter> _adapters ;
-        private const string PostCommand = "/post";
 
         public TelegramBotController(IOptions<Config> settings)
         {
@@ -32,15 +31,21 @@ namespace AlfaPoster.TelegramFacade.Controllers
         {
             if (update.Message == null) return Ok();
             var message = update.Message;
-            
+
+            if (update.Message.ReplyToMessage == null && update.Message.Text.Trim() == Bot.PostCommand)
+            {
+                await Bot.Api.SendTextMessageAsync(message.Chat.Id, Bot.InfoMessage);
+                return Ok();
+            }
+                
             var postText = PreparePostText(message);
             if (postText == null) return Ok();
-            
+
             foreach (var adapter in _adapters)
             {
                 var result = await adapter.PostAsync(postText);
                 if (result.Success)
-                    await Bot.Api.SendTextMessageAsync(message.Chat.Id, "Запощено!");
+                    await Bot.Api.SendTextMessageAsync(message.Chat.Id, Bot.SuccessMessage);
                 else
                     await Bot.Api.SendTextMessageAsync(message.Chat.Id, result.Message);
             }
@@ -51,12 +56,12 @@ namespace AlfaPoster.TelegramFacade.Controllers
         private string PreparePostText(Message message)
         {
             if (message.Text == null) return null;
-            if (!message.Text.StartsWith(PostCommand)) return null;
-
-            if (message.ReplyToMessage != null && message.Text == PostCommand)
+            if (!message.Text.StartsWith(Bot.PostCommand)) return null;
+           
+            if (message.ReplyToMessage != null && message.Text == Bot.PostCommand)
                 return message.ReplyToMessage.Text;
 
-            var postText = message.Text.Replace(PostCommand, string.Empty);
+            var postText = message.Text.Replace(Bot.PostCommand, string.Empty);
 
             if (postText == string.Empty) return null;
             if (postText.Length > 240)

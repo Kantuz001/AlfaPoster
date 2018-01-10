@@ -10,6 +10,7 @@ namespace AlfaPoster.TelegramFacade.Infrastructure
         public string TwitterAccessTokenSecre { get; set; }
         public string HostUrl { get; set; }
         public string TelegramBotToken { get; set; }
+        public string TelegramBotName { get; set; }
         public bool Ngrok { get; set; }
     }
 }
