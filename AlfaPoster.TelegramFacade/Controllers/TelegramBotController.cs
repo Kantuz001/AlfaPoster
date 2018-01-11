@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AlfaPoster.Core;
 using AlfaPoster.TelegramFacade.Infrastructure;
+using AlfaPoster.TelegramFacade.Infrastructure.Config;
 using AlfaPoster.Core.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -18,10 +19,10 @@ namespace AlfaPoster.TelegramFacade.Controllers
             _adapters = new List<IAdapter> 
             { 
                 new TwitterAdapter(
-                    settings.Value.TwitterConsumerKey, 
-                    settings.Value.TwitterConsumerSecret, 
-                    settings.Value.TwitterAccessToken, 
-                    settings.Value.TwitterAccessTokenSecre)
+                    settings.Value.TwitterConfig.ConsumerKey, 
+                    settings.Value.TwitterConfig.ConsumerSecret, 
+                    settings.Value.TwitterConfig.AccessToken, 
+                    settings.Value.TwitterConfig.AccessTokenSecret)
             };
         }
         
