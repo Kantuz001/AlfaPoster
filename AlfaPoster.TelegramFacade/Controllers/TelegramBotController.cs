@@ -30,7 +30,7 @@ namespace AlfaPoster.TelegramFacade.Controllers
         [IpWhitelist("149.154.167.197", "149.154.167.233")]
         public async Task<IActionResult> Message([FromBody]Update update)
         {
-            if (update.Message == null) return Ok();
+            if (update.Message?.Text == null) return Ok();
             var message = update.Message;
 
             if (update.Message.ReplyToMessage == null && update.Message.Text.Trim() == Bot.PostCommand)
