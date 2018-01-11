@@ -13,7 +13,7 @@ namespace AlfaPoster.TelegramFacade.Infrastructure
         {
             Api = new TelegramBotClient(token);
             PostCommand =  "/post@" + botName;
-            InfoMessage = $"Test CI \"{PostCommand}\" в https://twitter.com/AlfaDevs. Подписывайтесь, ставьте лайки!";
+            InfoMessage = $"Постит реплай, либо сообщение после команды \"{PostCommand}\" в https://twitter.com/AlfaDevs. Подписывайтесь, ставьте лайки!";
             SuccessMessage = "Запощено!";
         }  
             
